@@ -1,2 +1,2 @@
 # Hi
-welcome to this thing
+welcome to game
