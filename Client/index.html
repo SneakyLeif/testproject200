@@ -9,57 +9,37 @@
 
     <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="jquery-ui.css">
 	
 	<script src="jquery.js"></script>
+	<script src="jquery-ui.min.js"></script>
 </head>
 
 <body>
+	<div id="main-menu-container">
+		<div id="title">welcome to game</div><br>
+	
+		<div id="player-type-container">
+			<input id="new" type="button" value="New Player"><br>
+			<input id="old" type="button" value="Returning Player">
+		</div>
 
-    <div class="title">welcome to game</div>
+		<div id="login-container">
+			<input id="username" placeholder="username" type="text"><br>
+			<input id="password" placeholder="password" type="password"><br>
+			<input id="login" type="button" value="Login"><br><br>
+			<input id="back" type="button" value="Back">
+		</div>
 
-    <div class="player-type-container">
-        <input id="new" type="button" value="New Player">
-        <br>
-        <input id="old" type="button" value="Returning Player">
-    </div>
-
-    <div class="login-container">
-        <input id="username" placeholder="username" type="text"><br>
-        <input id="password" placeholder="password" type="password"><br>
-        <input id="login" type="button" value="Login"><br><br>
-        <input id="back" type="button" value="Back">
-    </div>
-
-    <div class="register-container">
-        <input id="username" placeholder="username" type="text"><br>
-        <input id="email" placeholder="email" type="text"><div id="optionalText">*optional</div><br>
-        <input id="password" placeholder="password" type="password"><br>
-        <input id="repeat-password" placeholder="repeat password" type="password"><br>
-        <input id="register" type="button" value="Register"><br><br>
-        <input id="back" type="button" value="Back">
-    </div>
-
-    <script src="jquery.js"></script>
-    <script>
-        $(".login-container").hide();
-        $(".register-container").hide();
-
-        $(document).on("click", "#new", () => {
-            $(".player-type-container").hide();
-            $(".register-container").show();
-        });
-
-        $(document).on("click", "#old", () => {
-            $(".player-type-container").hide();
-            $(".login-container").show();
-        });
-
-        $(document).on("click", "#back", () => {
-            $(".player-type-container").show();
-            $(".login-container").hide();
-            $(".register-container").hide();
-        });
-    </script>
+		<div id="register-container">
+			<input id="username" placeholder="username" type="text"><br>
+			<input id="email" placeholder="email" type="text"><div id="optionalText">*optional</div><br>
+			<input id="password" placeholder="password" type="password"><br>
+			<input id="repeat-password" placeholder="repeat password" type="password"><br>
+			<input id="register" type="button" value="Register"><br><br>
+			<input id="back" type="button" value="Back">
+		</div>
+	</div>
 	
 	<!-- socket.io script -->
 	<script src="socket.io.js"></script>

@@ -3,47 +3,58 @@
 }
 
 body {
-	position: absolute;
-	top: 25%;
-	left: 100px;
-	width: calc(100% - 200px);
-	height: 50%;
-
-	margin: 0;
-	padding: 0;
 	background: #222;
 	color: #eee;
 }
 
-.title {
+#title {
+	position: relative;
+	display: none;
 	font-size: 3em;
 	text-align: center;
 }
 
-.player-type-container,
-.login-container,
-.register-container {
+#main-menu-container {
 	position: absolute;
-	top: 65%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	top: 10%;
+	left: calc(50% - 250px);
+	width: 500px;
 	text-align: center;
 }
 
-.register-container input {
+#player-type-container,
+#login-container,
+#register-container {
+	position: absolute;
+	top: calc(10% + 80px);
+	left: calc(50% - 250px);
+	width: 500px;
+}
+
+#main-menu-container,
+#player-type-container,
+#login-container,
+#register-container {
+	display: none;
+}
+
+#player-type-container input {
 	display: inline-block;
 }
 
-.player-type-container input[type=button] {
-	width: 100%;
+#player-type-container input[type=button] {
+	width: 300px;
 	font-size: 2em;
 	padding: 10px 15px;
 	margin: 10px 0;
 }
+#player-type-container input[type=text] {
+	width: 300px;
+}
 
 div input {
 	text-align: center;
-	width: 80%;
+	width: 260px;
 	font-size: 1.5em;
 	padding: 10px 15px;
 	margin: 10px 0;
@@ -56,6 +67,7 @@ div input {
 
 div input[type=text], input[type=password] {
 	cursor: text;
+	width: 300px;
 }
 
 #email {
