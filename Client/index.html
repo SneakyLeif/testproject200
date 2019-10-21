@@ -1,9 +1,71 @@
-<html>
-	<head>
-		<title>yeet</title>
-		<link rel='stylesheet' href="style.css">
-	</head>
-	<body>
-		yeeee booiiii
-	</body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	
+	<script src="jquery.js"></script>
+</head>
+
+<body>
+
+    <div class="title">welcome to game</div>
+
+    <div class="player-type-container">
+        <input id="new" type="button" value="New Player">
+        <br>
+        <input id="old" type="button" value="Returning Player">
+    </div>
+
+    <div class="login-container">
+        <input id="username" placeholder="username" type="text"><br>
+        <input id="password" placeholder="password" type="password"><br>
+        <input id="login" type="button" value="Login"><br><br>
+        <input id="back" type="button" value="Back">
+    </div>
+
+    <div class="register-container">
+        <input id="username" placeholder="username" type="text"><br>
+        <input id="email" placeholder="email" type="text"><div id="optionalText">*optional</div><br>
+        <input id="password" placeholder="password" type="password"><br>
+        <input id="repeat-password" placeholder="repeat password" type="password"><br>
+        <input id="register" type="button" value="Register"><br><br>
+        <input id="back" type="button" value="Back">
+    </div>
+
+    <script src="jquery.js"></script>
+    <script>
+        $(".login-container").hide();
+        $(".register-container").hide();
+
+        $(document).on("click", "#new", () => {
+            $(".player-type-container").hide();
+            $(".register-container").show();
+        });
+
+        $(document).on("click", "#old", () => {
+            $(".player-type-container").hide();
+            $(".login-container").show();
+        });
+
+        $(document).on("click", "#back", () => {
+            $(".player-type-container").show();
+            $(".login-container").hide();
+            $(".register-container").hide();
+        });
+    </script>
+	
+	<!-- socket.io script -->
+	<script src="socket.io.js"></script>
+	
+	<!-- Main script -->
+	<script src="main.js"></script>
+</body>
+
 </html>
