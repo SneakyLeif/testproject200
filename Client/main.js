@@ -60,3 +60,41 @@ $(document).on("click", "#back", () => {
 	$("#login-container").hide("blind", 500);
 	$("#register-container").hide("blind", 500);
 });
+
+$(document).on("click", "#register", () => {
+	data = {
+		user: $("#reg-username").val(),
+		email: $("#email").val(),
+		pass1: $("#reg-password").val(),
+		pass2: $("#repeat-password").val(),
+	};
+	
+	userValid = false;
+	passValid = false;
+	passMatches = false;
+	
+	if (data.user != "") {
+		if (data.user.length > 4 && data.user.length <= 18) {
+			userValid = true;
+		}
+	}
+	
+	if (data.pass1 != "") {
+		if (data.pass1.length > 4 && data.pass1.length <= 24) {
+			passValid = true;
+			
+			if (data.pass1 == data.pass2) {
+				passMatches = true;
+			}
+		}
+	}
+	
+	if (userValid && passValid && passMatches) {
+		console.log("yep");
+		console.log(data);
+		socket.emit('submit-register', data);
+	} else {
+		console.log("nope");
+		console.log(data);
+	}
+});
