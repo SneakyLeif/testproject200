@@ -18,8 +18,6 @@ $(function() {
 	var loadingCheck = setInterval(function() {
 		if (connected) {
 			socket.emit("request-motd", 0);
-
-			
 			
 			$("#main-menu-container").show();
 			$("#title").show("blind", 250);
@@ -33,6 +31,10 @@ $(function() {
 
 socket.on("motd", function(data) {
 	$("#motd").html(data);
+	$("#motd-title-container").show("blind", {"direction": "left"}, 500);
+	setTimeout(function() {
+		$("#motd").show("blind", {"direction": "up"}, 500);
+	}, 500);
 });
 
 $(document).on("click", "#new", () => {

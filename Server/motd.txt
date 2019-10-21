@@ -1,3 +1,5 @@
 <style>h2,p{margin:0}</style>
-<h2>test motd</h2>
-<p>yeet we gonna do this shit my boi if it's the last thing we do</p>
+<h2>hi o/</h2>
+<p>this is a motd (message of the day)</p>
+<p>i'm definitely not going to update this daily</p>
+<p>it's just a phrase</p>
