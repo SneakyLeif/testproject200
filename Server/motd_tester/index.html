@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>motd tester</title>
+	
+    <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
+	
+	<script src="jquery.js"></script>
+</head>
+
+<body>
+	<div id='motd-title-container'>
+		<div id='motd-title'>motd</div>
+	</div>
+	<div id='motd'>dijasdjklaisd</div>
+	
+	
+</body>
+
+<!-- socket.io script -->
+<script src="socket.io.js"></script>
+
+<!-- local script -->
+<script>
+// socket.io connection
+var socket = io.connect("http://sneakyleif.com:8081", {
+	'reconnection': true,
+	'reconnectionDelay': 500,
+	'reconnectionAttempts': 'Infinity'
+});
+
+// On initial connection
+socket.on('initial-connection', function() {
+	connected = true;
+	startup();
+	console.log("yeet");
+});
+
+
+function startup() {
+	socket.emit("request-motd", 1);
+
+	socket.on("motd", function(data) {
+		$("#motd").html(data);
+	});
+
+}
+</script>
+
+<style>
+* {
+	font-family: 'Karla', sans-serif;
+}
+
+body {
+	text-align: center;
+	background-color: #222
+}
+
+#motd-title-container {
+	position: absolute;
+	width: 320px;
+	top: -10px;
+	height: 0%;
+	min-height: 50px;
+	left: calc(50% - 160px);
+	border-bottom: 1px solid white;
+}
+
+#motd-title {
+	position: absolute;
+	width: 300px;
+	left: calc(50% - 150px);
+	bottom: 0%;
+	text-align: left;
+	font-size: 30px;
+	font-weight: bold;
+	font-style: italic;
+	color: #bfbfbf;
+}
+#motd {
+	position: relative;
+	width: 300px;
+	left: calc(50% - 150px);
+	top: 38px;
+	color: white;
+	text-align: left;
+}
+</style>
+
+</html>
