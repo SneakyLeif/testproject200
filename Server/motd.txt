@@ -1,3 +1,3 @@
 <style>h2,p{margin:0}</style>
-<h2>this is a test roflmao</h2>
-<p>yeet we gonna do this shit my boi if it's the last thing i do!</p>
+<h2>test motd</h2>
+<p>yeet we gonna do this shit my boi if it's the last thing we do</p>

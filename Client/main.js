@@ -17,6 +17,10 @@ socket.on('initial-connection', function() {
 $(function() {
 	var loadingCheck = setInterval(function() {
 		if (connected) {
+			socket.emit("request-motd", 0);
+
+			
+			
 			$("#main-menu-container").show();
 			$("#title").show("blind", 250);
 			setTimeout(function() {
@@ -25,6 +29,10 @@ $(function() {
 			clearInterval(loadingCheck);
 		}
 	}, 100);
+});
+
+socket.on("motd", function(data) {
+	$("#motd").html(data);
 });
 
 $(document).on("click", "#new", () => {

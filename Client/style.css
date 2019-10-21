@@ -96,3 +96,33 @@ input[type=text]:focus,
 input[type=password]:focus {
 	background: #333;
 }
+
+#motd-title-container {
+	position: absolute;
+	width: 240px;
+	top: -10px;
+	height: 0%;
+	min-height: 50px;
+	left: -46%;
+	border-bottom: 1px solid white;
+}
+
+#motd-title {
+	position: absolute;
+	width: 220px;
+	left: calc(50% - 110px);
+	bottom: 0%;
+	text-align: left;
+	font-size: 30px;
+	font-weight: bold;
+	font-style: italic;
+	color: #bfbfbf;
+}
+#motd {
+	position: relative;
+	width: 220px;
+	left: calc(50% - 110px);
+	top: 54px;
+	color: white;
+	text-align: left;
+}
