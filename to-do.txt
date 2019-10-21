@@ -1,0 +1,22 @@
+game to-do:
+
+	1 - Add MySQL functionality
+		- Load all tables into objects on server start
+		- 
+	
+	2 - Create a character select and creation page
+	
+	3 - Add basic social functionality
+		- Will be available in character select/creation.
+		- List of social functions:
+			- Friends List
+				- Request-based friend system
+			- Chat
+				- World
+				- Direct Message
+				- Group? (like a group chat where the creator can add/remove people, or they can remove themselves)
+			- Feed
+				- Recent friend activity that can be liked and replied to
+					- Achievements
+					- Milestones
+					- Custom Messages
