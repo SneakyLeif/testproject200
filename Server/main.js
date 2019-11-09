@@ -1,7 +1,8 @@
 var io = require('socket.io')(8081),
 	mysql = require('mysql'),
 	colors = require('colors'),
-	fs = require('fs');
+	fs = require('fs'),
+	bcrypt = require('bcrypt');
 
 // Initial variables
 var server = {
@@ -65,7 +66,6 @@ function handleDisconnect() {
 		}
 	});
 }
-
 handleDisconnect(); // Connect and start disconnect handler
 
 // Preloading SQL database into objects
@@ -74,13 +74,25 @@ con.query("SELECT * FROM users", function(err, res) {
 	if (err) throw err;
 	
 	for (var i = 0; i < res.length; i++) {
-		uObj[res[i].id] = res[i]; // create uObj object for user
+		
+		var obj = createUObj(res[i]);
+		uObj[res[i].id] = createUObj(res[i]); // create uObj object for user
 		uIndex[res[i].username] = res[i].id; // create uIndex reference for user
 	}
 	
 	log("Loaded "+ res.length +" users!"+ colors.green(" :D"));
 	server.table.uObj = true;
 });
+
+// Create uObj for user (used when loading the users table and on registration)
+function createUObj(res) {
+	var obj = res;
+	delete obj.id;
+
+	obj.online = false;
+
+	return obj;
+}
 
 // The big loading checker
 loadCheck = setInterval(function() {
@@ -94,9 +106,9 @@ loadCheck = setInterval(function() {
 }, 100);
 
 io.on('connection', function(socket) {
-	console.log("A user has connected!");
+	log("A user has connected!");
 	
-	socket.emit('initial-connection');
+	socket.emit('initial-connection'); // A "ping" of sorts
 	
 	socket.on('request-motd', function(n) {
 		if (n == 0) {
@@ -106,41 +118,179 @@ io.on('connection', function(socket) {
 		}
 	});
 	
+	// User Registration
 	socket.on('submit-register', function(regData) {
-		userValid = false;
-		passValid = false;
-		passMatches = false;
-		
-		if (regData.user != "") {
-			userTaken = isUserTaken(regData.user);
+		if (regData != "" && regData != null) {
+			var email = {
+				valid: false,
+				tooLong: false,
+				missing: false
+			};
+			var user = {
+				valid: false,
+				empty: false,
+				taken: false,
+				tooShort: false,
+				tooLong: false,
+				missing: false
+			};
+			var pass = {
+				valid: false,
+				empty: false,
+				matches: false,
+				tooShort: false,
+				tooLong: false,
+				missing: false,
+				missing_confirmation: false
+			};
 			
-			if (!userTaken && regData.user.length > 4 && regData.user.length <= 18) {
-				userValid = true;
-			}
-		}
-		
-		if (regData.pass1 != "") {
-			if (regData.pass1.length > 4 && regData.pass1.length <= 24) {
-				passValid = true;
-				
-				if (regData.pass1 == regData.pass2) {
-					passMatches = true;
+			// Email
+			if (regData.hasOwnProperty("email")) {
+				if (regData.email == "") {
+					email.valid = true;
+					
+				} else {
+					if (regData.email.length <= 32) {
+						email.valid = true;
+						
+					} else {
+						email.tooLong = true;
+						
+					}
 				}
+			} else {
+				email.missing = true;
 			}
-		}
-		
-		if (userValid && passValid && passMatches) {
-			// CREATE ACCOUNT HERE!! (post to mysql, update uObj and uIndex, log user in)
 			
-			console.log("someone tried to make an account with the username: \""+ regData.user +"\"");
-		} else {
-			console.log("nope");
-			console.log(regData);
+			// Username
+			if (regData.hasOwnProperty("user")) {
+				if (regData.user != "") {
+					if (!isUserTaken(regData.user)) {
+						if (regData.user.length >= 4) {
+							if (regData.user.length <= 18) {
+								user.valid = true;
+							} else {
+								user.tooLong = true;
+							}
+						} else {
+							user.tooShort = true;
+						}
+					} else {
+						user.taken = true;
+					}
+				} else {
+					user.empty = true;
+				}
+			} else {
+				user.missing = true;
+			}
+			
+			// Password
+			if (regData.hasOwnProperty("pass1")) {
+				if (regData.hasOwnProperty("pass2")) {
+					if (regData.pass1 != "") {
+						if (regData.pass1.length >= 5) {
+							if (regData.pass1.length <= 24) {
+								pass.valid = true;
+								
+								if (regData.pass1 == regData.pass2) {
+									pass.matches = true;
+									
+								}
+							} else {
+								pass.tooLong = true;
+								
+							}
+						} else {
+							pass.tooShort = true;
+							
+						}
+					} else {
+						pass.empty = true;
+						
+					}
+				} else {
+					pass.missing_confirmation = true;
+					
+				}
+			} else {
+				pass.missing = true;
+				
+			}
+			
+			if (email.valid && user.valid && pass.valid && pass.matches) {
+				console.log("someone tried to make an account with the username: \""+ regData.user +"\"");
+				
+				// CREATE ACCOUNT HERE!! (post to mysql, update uObj and uIndex, log user in)
+				
+				bcrypt.hash(regData.pass1, 10, function(err, hash) {
+					var insert = {
+						username: regData.user,
+						email: regData.email,
+						password: hash
+					};
+
+					con.query('INSERT INTO users SET ?', insert, function(err, res) {
+						if (err) throw err;
+						
+						uObj[res.insertId] = createUObj(res);
+						uIndex[res.username] = res[i].id;
+						
+						socket.pId = res.insertId;
+						socket.join("p-"+ res.insertId);
+
+						logIn(socket.pId);
+					});
+				});
+				
+			} else {
+				var err = {
+					err: true
+				};
+				for (var key in email) {
+					if (email[key]) {
+						err.email = key;
+					}
+				}
+				for (var key in user) {
+					if (user[key]) {
+						err.user = key;
+					}
+				}
+				for (var key in pass) {
+					if (pass[key]) {
+						err.pass = key;
+					}
+				}
+				if (!pass.matches) {
+					err.pass.matches = false;
+				}
+				
+				socket.emit('register-response', err);
+			}
 		}
 	});
+
+	function logIn(id) {
+		if (uObj.hasOwnProperty(id)) {
+			uObj[id].online = true;
+		} else {
+			log("error logging in :(", "red");
+		}
+	}
 	
 	socket.on('disconnect', function() {
-		console.log("A user has disconnected!");
+		if (socket.hasOwnProperty("pId")) {
+			uObj[socket.pId].online = false;
+
+			uObj[socket.pId].last_online = Date.now();
+			var sql = "UPDATE users SET last_online = '"+ uObj[socket.pId].last_online +"' WHERE id ='"+ id +"'";
+			con.query(sql, function(err, result) {if (err) throw err});
+
+			log(uObj[socket.pId].username +" has gone offline :(", "gray");
+		} else {
+			log("A user has disconnected :(", "gray");
+		}
 	});
 });
 

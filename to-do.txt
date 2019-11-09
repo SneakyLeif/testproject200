@@ -1,12 +1,15 @@
 game to-do:
 
-	1 - Add MySQL functionality
-		- Load all tables into objects on server start
-		- 
+	1 - Sanitize MySQL queries
+		
+	2 - Finish account system
+		- Register [done!]
+		- MySQL [in-progress]
+		- Login
 	
-	2 - Create a character select and creation page
+	3 - Create a character select and creation page
 	
-	3 - Add basic social functionality
+	4 - Add basic social functionality
 		- Will be available in character select/creation.
 		- List of social functions:
 			- Friends List

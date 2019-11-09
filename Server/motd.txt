@@ -3,3 +3,4 @@
 <p>this is a motd (message of the day)</p>
 <p>i'm definitely not going to update this daily</p>
 <p>it's just a phrase</p>
+<p>sup boi</p>

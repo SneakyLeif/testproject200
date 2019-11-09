@@ -62,39 +62,112 @@ $(document).on("click", "#back", () => {
 });
 
 $(document).on("click", "#register", () => {
-	data = {
+	var data = {
 		user: $("#reg-username").val(),
 		email: $("#email").val(),
 		pass1: $("#reg-password").val(),
 		pass2: $("#repeat-password").val(),
 	};
 	
-	userValid = false;
-	passValid = false;
-	passMatches = false;
+	var email = {
+		valid: false,
+		tooLong: false
+	};
+	var user = {
+		valid: false,
+		empty: false,
+		tooShort: false,
+		tooLong: false
+	};
+	var pass = {
+		valid: false,
+		empty: false,
+		matches: false,
+		tooShort: false,
+		tooLong: false
+	};
 	
+	// Email
+	if (data.email == "") {
+		email.valid = true;
+	} else {
+		if (data.email.length <= 32) {
+			email.valid = true;
+		} else {
+			email.tooLong = true;
+		}
+	}
+	
+	// Username
 	if (data.user != "") {
-		if (data.user.length > 4 && data.user.length <= 18) {
-			userValid = true;
-		}
-	}
-	
-	if (data.pass1 != "") {
-		if (data.pass1.length > 4 && data.pass1.length <= 24) {
-			passValid = true;
-			
-			if (data.pass1 == data.pass2) {
-				passMatches = true;
+		if (data.user.length >= 4) {
+			if (data.user.length <= 18) {
+				user.valid = true;
+			} else {
+				user.tooLong = true;
 			}
+		} else {
+			user.tooShort = true;
 		}
+	} else {
+		user.empty = true;
 	}
 	
-	if (userValid && passValid && passMatches) {
+	// Password
+	if (data.pass1 != "") {
+		if (data.pass1.length >= 5) {
+			if (data.pass1.length <= 24) {
+				if (data.pass1 == data.pass2) {
+					pass.valid = true;
+					pass.matches = true;
+				}
+			} else {
+				pass.tooLong = true;
+			}
+		} else {
+			pass.tooShort = true;
+		}
+	} else {
+		pass.empty = true;
+	}
+	
+	if (email.valid && user.valid && pass.valid && pass.matches) {
 		console.log("yep");
-		console.log(data);
 		socket.emit('submit-register', data);
 	} else {
 		console.log("nope");
+		var err = {
+			err: true
+		};
+		for (var key in email) {
+			if (email[key]) {
+				err.email = key;
+			}
+		}
+		for (var key in user) {
+			if (user[key]) {
+				err.user = key;
+			}
+		}
+		console.log(pass);
+		for (var key in pass) {
+			if (pass[key]) {
+				err.pass = key;
+			}
+		}
+		if (!pass.matches) {
+			if (!err.hasOwnProperty("pass")) {
+				err.pass = "don't match";
+				err.pass.matches = false;
+			}
+		}
+		
+		console.log(err);
+	}
+});
+
+socket.on('register-response', function(data) {
+	if (data.err) {
 		console.log(data);
 	}
 });
