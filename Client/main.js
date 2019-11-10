@@ -132,24 +132,22 @@ $(document).on("click", "#register", () => {
 	}
 	
 	if (email.valid && user.valid && pass.valid && pass.matches) {
-		console.log("yep");
 		socket.emit('submit-register', data);
 	} else {
-		console.log("nope");
-		var err = {
-			err: true
-		};
+		var err = {err: true};
+
 		for (var key in email) {
 			if (email[key]) {
 				err.email = key;
 			}
 		}
+
 		for (var key in user) {
 			if (user[key]) {
 				err.user = key;
 			}
 		}
-		console.log(pass);
+		
 		for (var key in pass) {
 			if (pass[key]) {
 				err.pass = key;
@@ -169,5 +167,63 @@ $(document).on("click", "#register", () => {
 socket.on('register-response', function(data) {
 	if (data.err) {
 		console.log(data);
+	}
+});
+
+$(document).on("click", "#login", () => {
+	var data = {
+		user: $("#login-username").val(),
+		pass: $("#login-password").val()
+	};
+
+	var user = {
+		valid: false,
+		empty: false
+	};
+	var pass = {
+		valid: false,
+		empty: false
+	};
+
+	if (data.user != "") {
+		user.valid = true;
+	} else {
+		user.empty = true;
+	}
+
+	if (data.pass != "") {
+		pass.valid = true;
+	} else {
+		pass.empty = true;
+	}
+
+	if (user.valid && pass.valid) {
+		socket.emit('submit-login', data);
+	} else {
+		var err = {err: true};
+
+		for (var key in user) {
+			if (user[key]) {
+				err.user = key;
+			}
+		}
+
+		for (var key in pass) {
+			if (pass[key]) {
+				err.pass = key;
+			}
+		}
+
+		console.log(err);
+	}
+});
+
+socket.on('login-response', function(data) {
+	if (data.err) {
+		console.log(data);
+	}
+
+	if (data.status) {
+		console.log("worked i guess?");
 	}
 });
