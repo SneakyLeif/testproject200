@@ -1,5 +1,6 @@
 // Initial variables
 var connected = false;
+var gotMotd = false;
 
 // socket.io connection
 var socket = io.connect("http://sneakyleif.com:8081", {
@@ -23,6 +24,25 @@ $(function() {
 			$("#title").show("blind", 250);
 			setTimeout(function() {
 				$("#player-type-container").show("blind", 500);
+
+				setTimeout(function() {
+					$("#motd-title-container").show("blind", {"direction": "left"}, 500);
+
+					if (gotMotd) {
+						setTimeout(function() {
+							$("#motd").show("blind", {"direction": "up"}, 500);
+
+						}, 400);
+					} else {
+						var motdCheck = setInterval(function() {
+							if (gotMotd) {
+								clearInterval(motdCheck);
+								$("#motd").show("blind", {"direction": "up"}, 500);
+
+							}
+						}, 400);
+					}
+				}, 400);
 			}, 180);
 			clearInterval(loadingCheck);
 		}
@@ -31,10 +51,7 @@ $(function() {
 
 socket.on("motd", function(data) {
 	$("#motd").html(data);
-	$("#motd-title-container").show("blind", {"direction": "left"}, 500);
-	setTimeout(function() {
-		$("#motd").show("blind", {"direction": "up"}, 500);
-	}, 500);
+	gotMotd = true;
 });
 
 $(document).on("click", "#new", () => {
