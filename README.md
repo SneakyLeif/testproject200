@@ -3,4 +3,4 @@
 
 currently not in working condition
 
-finishing account system
+finishing character creation

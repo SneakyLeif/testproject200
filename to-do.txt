@@ -4,10 +4,11 @@ game to-do:
 		
 	2 - Finish account system
 		- Register [done!]
-		- MySQL [in-progress]
-		- Login
+		- MySQL [done!]
+		- Login [in-progress]
 	
 	3 - Create a character select and creation page
+		- With full social functionality
 	
 	4 - Add basic social functionality
 		- Will be available in character select/creation.
