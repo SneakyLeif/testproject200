@@ -3,7 +3,7 @@
 }
 
 body {
-	background: #222;
+	background-color: #222;
 	color: #eee;
 }
 
@@ -11,14 +11,6 @@ body {
 	position: relative;
 	display: none;
 	font-size: 3em;
-	text-align: center;
-}
-
-#main-menu-container {
-	position: absolute;
-	top: 10%;
-	left: calc(50% - 250px);
-	width: 500px;
 	text-align: center;
 }
 
@@ -36,6 +28,7 @@ body {
 #login-container,
 #register-container {
 	display: none;
+	text-align: center;
 }
 
 #player-type-container input {
@@ -44,7 +37,7 @@ body {
 }
 
 #player-type-container input[type=button] {
-	width: 300px;
+	width: 340px;
 	font-size: 2em;
 	padding: 10px 15px;
 	margin: 10px 0;
@@ -59,8 +52,6 @@ div input {
 	font-size: 1.5em;
 	padding: 10px 15px;
 	margin: 10px 0;
-	background: #555;
-	color: #eee;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
@@ -80,56 +71,44 @@ div input[type=text], input[type=password] {
 	font-size: 1.2em;
 }
 
+#old, #new {
+	border-radius: 0;
+	width: 400px;
+}
+
 #login_backdrop,
 #register_backdrop {
-	position: absolute;
-	left: 18%;
-	font-size: 90px;
-	color: #222;
+	position: relative;
+	font-size: 105px;
 	font-weight: bold;
 	z-index: 1;
 	pointer-events: none;
 }
 
 #login_backdrop {
-	top: -10%;
-	letter-spacing: 10px;
+	top: -211px;
+	left: 5px;
+	letter-spacing: 12px;
 }
 
 #register_backdrop {
-	top: 40%;
-	letter-spacing: -12px;
+	top: -281px;
+	left: -8px;
+	letter-spacing: -14px;
 }
 
-input[type=button]:hover,
-input[type=button]:focus {
-	background: #888;
-}
-
-input[type=button]:active {
-	background: #333;
-}
-
-input[type=text]:hover,
-input[type=password]:hover {
-	background: #888;
-}
-
-input[type=text]:focus,
-input[type=password]:focus {
-	background: #333;
-}
 
 #motd-title-container {
 	display: none;
-	position: absolute;
+	/*position: absolute;
 	width: 280px;
 	top: 20px;
 	height: 0%;
 	min-height: 50px;
-	left: -52%;
+	left: -52%;*/
 	border-bottom: 1px solid white;
 }
+
 
 #motd-title {
 	position: absolute;
@@ -150,4 +129,8 @@ input[type=password]:focus {
 	top: 54px;
 	color: white;
 	text-align: left;
+}
+
+#char-select-container {
+	display: none;
 }

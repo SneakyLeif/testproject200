@@ -14,36 +14,38 @@
 </head>
 
 <body class="bg-dark text-light">
-	<div id="main-menu-container" class="mx-auto">
-		<div id='motd-title-container' class="container">
-			<div id='motd-title'>motd</div>
-			<div id='motd'><center>loading...</center></div>
-		</div>
-		
-		<div id='main-title-container' class="container">
-			<div id="title">welcome to game</div><br>
-		
-			<div id="player-type-container">
-				<div id="login_backdrop" class="text-dark">LOG IN</div>
-				<div id="register_backdrop" class="text-dark">REGISTER</div>
-				<input id="old" class="bg-gradient-info" type="button"><br>
-				<input id="new" class="bg-gradient-info" type="button">
+	<div id="main-menu-container" class="container">
+		<div class="row">
+			<div id='motd-title-container' class="col">
+				<div id='motd-title'>motd</div>
+				<div id='motd'><center>loading...</center></div>
 			</div>
+			
+			<div id='main-title-container' class="col">
+				<div id="title">welcome to game</div><br>
+			
+				<div id="player-type-container">
+					<input id="old" class="bg-light" type="button"><br>
+					<input id="new" class="bg-light" type="button">
+					<div id="login_backdrop" class="text-dark">LOG IN</div>
+					<div id="register_backdrop" class="text-dark">REGISTER</div>
+				</div>
 
-			<div id="login-container">
-				<input id="login-username" placeholder="username" type="text"><br>
-				<input id="login-password" placeholder="password" type="password"><br>
-				<input id="login" type="button" value="Login"><br><br>
-				<input id="back" type="button" value="Back">
-			</div>
+				<div id="login-container">
+					<input id="login-username" placeholder="username" type="text"><br>
+					<input id="login-password" placeholder="password" type="password"><br>
+					<input id="login" type="button" value="Login"><br><br>
+					<input id="back" type="button" value="Back">
+				</div>
 
-			<div id="register-container">
-				<input id="reg-username" placeholder="username" type="text"><br>
-				<input id="email" placeholder="email" type="text"><div id="optionalText">*optional</div><br>
-				<input id="reg-password" placeholder="password" type="password"><br>
-				<input id="repeat-password" placeholder="repeat password" type="password"><br>
-				<input id="register" type="button" value="Register"><br><br>
-				<input id="back" type="button" value="Back">
+				<div id="register-container">
+					<input id="reg-username" placeholder="username" type="text"><br>
+					<input id="email" placeholder="email" type="text"><div id="optionalText">*optional</div><br>
+					<input id="reg-password" placeholder="password" type="password"><br>
+					<input id="repeat-password" placeholder="repeat password" type="password"><br>
+					<input id="register" type="button" value="Register"><br><br>
+					<input id="back" type="button" value="Back">
+				</div>
 			</div>
 		</div>
 	</div>

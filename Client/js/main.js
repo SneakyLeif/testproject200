@@ -1,6 +1,10 @@
 // Initial variables
 var connected = false;
-var gotMotd = false;
+var motd = {
+	got: false,
+	state: false,
+	content: ""
+}
 
 // socket.io connection
 var socket = io.connect("http://sneakyleif.com:8081", {
@@ -22,27 +26,36 @@ $(function() {
 			
 			$("#main-menu-container").show();
 			$("#title").show("blind", 250);
+
 			setTimeout(function() {
 				$("#player-type-container").show("blind", 500);
 
-				setTimeout(function() {
-					$("#motd-title-container").show("blind", {"direction": "left"}, 500);
+				if (motd.got) {
+					setTimeout(function() {
 
-					if (gotMotd) {
-						setTimeout(function() {
-							$("#motd").show("blind", {"direction": "up"}, 500);
+						if (motd.state) {
+							$("#motd-title-container").show("blind", {"direction": "left"}, 500);
 
-						}, 400);
-					} else {
-						var motdCheck = setInterval(function() {
-							if (gotMotd) {
-								clearInterval(motdCheck);
+							setTimeout(function() {
 								$("#motd").show("blind", {"direction": "up"}, 500);
+							}, 400);
+						}
 
+					}, 400);
+				} else {
+					var motdCheck = setInterval(function() {
+
+						if (motd.got) {
+							clearInterval(motdCheck);
+
+							if (motd.state) {
+								$("#motd").show("blind", {"direction": "up"}, 500);
 							}
-						}, 400);
-					}
-				}, 400);
+
+						}
+					}, 400);
+				}
+
 			}, 180);
 			clearInterval(loadingCheck);
 		}
@@ -50,8 +63,14 @@ $(function() {
 });
 
 socket.on("motd", function(data) {
-	$("#motd").html(data);
-	gotMotd = true;
+	if (data.state) {
+		motd.state = true;
+
+		$("#motd").html(data.content);
+		motd.content = data.content;
+	}
+	
+	motd.got = true;
 });
 
 $(document).on("click", "#new", () => {

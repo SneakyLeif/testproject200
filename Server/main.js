@@ -8,6 +8,11 @@ var io = require('socket.io')(8081),
 var server = {
 	test_motd: "",
 	motd: "",
+	motd: {
+		state: false, // Toggle MOTD here
+		main: "",
+		test: ""
+	},
 	status: "starting",
 	db_conn: false,
 	table: {
@@ -95,7 +100,7 @@ function createUObj(yeet) {
 
 // The big loading checker
 loadCheck = setInterval(function() {
-	if (server.db_conn && server.motd && server.test_motd && server.table.uObj) {
+	if (server.db_conn && server.motd.main && server.motd.test && server.table.uObj) {
 		log("done loading i think");
 		
 		server.status = "online";
@@ -111,9 +116,20 @@ io.on('connection', function(socket) {
 	
 	socket.on('request-motd', function(n) {
 		if (n == 0) {
-			socket.emit('motd', server.motd);
+			if (server.motd.state) {
+				var data = {
+					state: true,
+					content: server.motd.main
+				};
+			} else {
+				var data = {
+					state: false
+				};
+			}
+
+			socket.emit('motd', data);
 		} else {
-			socket.emit('motd', server.test_motd);
+			socket.emit('motd', server.motd.test);
 		}
 	});
 	
